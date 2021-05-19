@@ -1,0 +1,22 @@
+version: "3.7"
+
+services: 
+  php:
+    build: 
+    # networks:
+    #   - container-link
+    # environment:
+    #   - VIRTUAL_HOST=localhost # nginx-proxyのホスト設定 ※本番ではlocalhost部分を「example.com,www.example.com」等にする
+    #   - LETSENCRYPT_HOST=localhost # Let's Encryptのホスト設定 ※本番ではlocalhost部分を「example.com,www.example.com」等にする
+    #   - LETSENCRYPT_EMAIL=xxxx@gmail.com # Let's Encryptのメール設定
+    #   - LETSENCRYPT_TEST=true # Let's Encryptのテストかどうかのフラグ 本番ではfalseにする (指定しないとテスト扱いになる)
+    #   - CERT_NAME=default # ローカルで認証局を立てるときに使う ※本番ではLet's Encryptから直接取得するのでコメントアウトする
+    #   - HTTPS_METHOD=noredirect # リダイレクトを無効にする
+    ports:
+      - "8080:8080"
+
+# networks:
+#   container-link:
+#     name: container_network
+#     external: true
+       
