@@ -3,9 +3,18 @@ version: "3.7"
 services: 
   php:
     build: 
+      context: .
+    volumes: 
+      - ./my-flamework:/work
     # networks:
     #   - container-link
     # environment:
+    #     - DB_CONNECTION=mysql
+    #     - DB_HOST=db
+    #     - DB_PORT=3306
+    #     - DB_DATABASE=${DB_NAME:-laravel_local}
+    #     - DB_USERNAME=${DB_USER:-phper}
+    #     - DB_PASSWORD=${DB_PASS:-secret}
     #   - VIRTUAL_HOST=localhost # nginx-proxyのホスト設定 ※本番ではlocalhost部分を「example.com,www.example.com」等にする
     #   - LETSENCRYPT_HOST=localhost # Let's Encryptのホスト設定 ※本番ではlocalhost部分を「example.com,www.example.com」等にする
     #   - LETSENCRYPT_EMAIL=xxxx@gmail.com # Let's Encryptのメール設定
