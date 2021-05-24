@@ -1,31 +1,33 @@
 version: "3.7"
 
-services: 
+services:
   php:
-    build: 
+    build:
       context: .
-    volumes: 
+    volumes:
       - ./my-flamework:/work
-    # networks:
-    #   - container-link
-    # environment:
-    #     - DB_CONNECTION=mysql
-    #     - DB_HOST=db
-    #     - DB_PORT=3306
-    #     - DB_DATABASE=${DB_NAME:-laravel_local}
-    #     - DB_USERNAME=${DB_USER:-phper}
-    #     - DB_PASSWORD=${DB_PASS:-secret}
-    #   - VIRTUAL_HOST=localhost # nginx-proxyのホスト設定 ※本番ではlocalhost部分を「example.com,www.example.com」等にする
-    #   - LETSENCRYPT_HOST=localhost # Let's Encryptのホスト設定 ※本番ではlocalhost部分を「example.com,www.example.com」等にする
-    #   - LETSENCRYPT_EMAIL=xxxx@gmail.com # Let's Encryptのメール設定
-    #   - LETSENCRYPT_TEST=true # Let's Encryptのテストかどうかのフラグ 本番ではfalseにする (指定しないとテスト扱いになる)
-    #   - CERT_NAME=default # ローカルで認証局を立てるときに使う ※本番ではLet's Encryptから直接取得するのでコメントアウトする
-    #   - HTTPS_METHOD=noredirect # リダイレクトを無効にする
-    ports:
-      - "8080:8080"
+    networks:
+      - container-link
+  nginx:
+    image: nginx:1.20-alpine
+    depends_on:
+      - php
+    volumes:
+      - ./my-flamework:/work
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - container-link
+    environment:
+      - VIRTUAL_HOST=api.localhost # nginx-proxyのホスト設定 ※本番ではlocalhost部分を「example.com,www.example.com」等にする
+      - LETSENCRYPT_HOST=api.localhost # Let's Encryptのホスト設定 ※本番ではlocalhost部分を「example.com,www.example.com」等にする
+      - LETSENCRYPT_EMAIL=xxxx@gmail.com # Let's Encryptのメール設定
+      - LETSENCRYPT_TEST=true # Let's Encryptのテストかどうかのフラグ 本番ではfalseにする (指定しないとテスト扱いになる)
+      - CERT_NAME=default # ローカルで認証局を立てるときに使う ※本番ではLet's Encryptから直接取得するのでコメントアウトする
+      - HTTPS_METHOD=noredirect # リダイレクトを無効にする
+    working_dir: /work
+    restart: always
 
-# networks:
-#   container-link:
-#     name: container_network
-#     external: true
-       
+networks:
+  container-link:
+    name: container_network
+    external: true
