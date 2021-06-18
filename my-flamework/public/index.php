@@ -17,12 +17,14 @@ $called = substr($last_uri, 0, strcspn($last_uri, '?'));
 if (file_exists('../app/controller/'.$called.'.php')) {
     // 該当ファイルをインクルードし、コントローラーをインスタンス化する
     include '../app/controller/'.$called.'.php';
-    $class = 'app\contoller\\'.$called;
+    $class = 'app\controller\\'.$called;
     $class_obj = new $class();
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // POSTであれば、コントローラーのpostメソッドを呼び出す
         $response = $class_obj->post();
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        $response = $class_obj->index();
     } else {
         // それ以外は空で返す
         $response = [];
@@ -30,6 +32,9 @@ if (file_exists('../app/controller/'.$called.'.php')) {
 
     // Origin null is not allowed by Access-Control-Allow-Origin.とかのエラー回避の為、ヘッダー付与
     header('Access-Control-Allow-Ofigin: *');
+    header('Access-Control-Allow-Headers: X-Requested-With, Origin, X-Csrftoken, Content-Type, Accept');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH, HEAD');
+
     // json形式で値を返す
     echo json_encode($response);
 } else {

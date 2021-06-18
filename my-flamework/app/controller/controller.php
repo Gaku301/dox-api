@@ -3,7 +3,6 @@
 namespace app\controller;
 
 require_once dirname(__FILE__).'/../../vendor/autoload.php';
-require_once dirname(__FILE__).'/../utility/utility.php';
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -26,6 +25,6 @@ class controller
     {
         $Logger = new Logger('logger');
         $Logger->pushHandler(new StreamHandler(__DIR__.'/../../logs/'.$file_name, Logger::INFO));
-        $Logger->addInfo($message);
+        $Logger->info($message);
     }
 }

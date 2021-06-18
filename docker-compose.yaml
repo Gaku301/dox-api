@@ -26,6 +26,8 @@ services:
       - HTTPS_METHOD=noredirect # リダイレクトを無効にする
     working_dir: /work
     restart: always
+    ports: 
+      - 10080:80
 
 networks:
   container-link:
